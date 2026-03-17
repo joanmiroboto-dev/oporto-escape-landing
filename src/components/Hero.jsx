@@ -11,9 +11,12 @@ function Hero() {
   const subtitleRef = useRef(null);
   const contentRef = useRef(null);
   const buttonsRef = useRef(null);
+  const timelineRef = useRef(null);
 
   useEffect(() => {
     const tl = gsap.timeline({ defaults: { ease: 'power3.out', duration: 1 } });
+    timelineRef.current = tl;
+
     tl.fromTo(
       titleRef.current,
       { autoAlpha: 0, y: 40 },
@@ -37,6 +40,12 @@ function Hero() {
         { autoAlpha: 1, y: 0 },
         '-=0.6',
       );
+
+    return () => {
+      if (timelineRef.current) {
+        timelineRef.current.kill();
+      }
+    };
   }, []);
 
   const handleDiscoverClick = () => {
